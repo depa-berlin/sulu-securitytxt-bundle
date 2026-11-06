@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sulu Securitytxt bundle.
  *
@@ -27,12 +28,12 @@ class BitExpertSuluSecuritytxtExtension extends Extension implements PrependExte
                 [
                     'forms' => [
                         'directories' => [
-                            __DIR__.'/../Resources/config/forms',
+                            __DIR__ . '/../Resources/config/forms',
                         ],
                     ],
                     'lists' => [
                         'directories' => [
-                            __DIR__.'/../Resources/config/lists',
+                            __DIR__ . '/../Resources/config/lists',
                         ],
                     ],
                     'resources' => [
@@ -43,19 +44,19 @@ class BitExpertSuluSecuritytxtExtension extends Extension implements PrependExte
                             ],
                         ],
                     ],
-                ]
+                ],
             );
         }
 
         // prepend, so the app's own framework config always wins
         $container->prependExtensionConfig('framework', [
-            'translator' => ['paths' => [__DIR__.'/../Resources/config/translations/']],
+            'translator' => ['paths' => [__DIR__ . '/../Resources/config/translations/']],
         ]);
     }
 
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
     }
 }
