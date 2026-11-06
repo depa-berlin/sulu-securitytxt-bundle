@@ -40,8 +40,9 @@ securitytxt_website:
 
 Once installed, this bundle adds a tab called "Security.txt" to the webspaces configuration which allows you to create
 new security.txt entries for the different webspaces. For each webspace only one security.txt configuration can be saved.
+Fields that may occur multiple times (Contact, Encryption, Acknowledgments, Policy, Hiring, Canonical) take one entry per line.
 
-Since 0.5.0: Only users with the Securitytxt permissions can view, add, edit or delete the security.txt entries.
+Only users with the `bitexpert.securitytxt` permission (Settings → Roles → Settings) can view, add, edit or delete the security.txt entries.
 
 ## Contribute
 

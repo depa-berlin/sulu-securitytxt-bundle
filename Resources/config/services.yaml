@@ -5,7 +5,8 @@ services:
 
     BitExpert\Sulu\SecuritytxtBundle\:
         resource: '../../*'
-        exclude: '../../{DependencyInjection,Entity,Migrations,Tests,Kernel.php, Wrapper}'
+        # vendor: a local `composer install` in the bundle must not get scanned (and autoloaded) as services
+        exclude: '../../{DependencyInjection,Entity,Tests,vendor}'
 
     BitExpert\Sulu\SecuritytxtBundle\Admin\:
         resource: '../../Admin'

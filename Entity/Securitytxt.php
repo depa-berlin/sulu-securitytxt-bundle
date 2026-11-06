@@ -15,6 +15,10 @@ use BitExpert\Sulu\SecuritytxtBundle\Repository\SecuritytxtRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * One security.txt (RFC 9116) per webspace. Fields that may occur multiple times are stored as ordered lists;
+ * for Contact the order is the preference.
+ */
 #[ORM\Entity(repositoryClass: SecuritytxtRepository::class)]
 class Securitytxt
 {
@@ -29,23 +33,35 @@ class Securitytxt
     #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: false)]
     private ?string $webspace_key = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $contact = null;
+    /** @var list<string> */
+    #[ORM\Column(type: Types::JSON)]
+    private array $contact = [];
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $expires = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $encryption = null;
+    /** @var list<string> */
+    #[ORM\Column(type: Types::JSON)]
+    private array $encryption = [];
+
+    /** @var list<string> */
+    #[ORM\Column(type: Types::JSON)]
+    private array $acknowledgments = [];
+
+    /** @var list<string> */
+    #[ORM\Column(type: Types::JSON)]
+    private array $policy = [];
+
+    /** @var list<string> */
+    #[ORM\Column(type: Types::JSON)]
+    private array $hiring = [];
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $acknowledgments = null;
+    private ?string $preferred_languages = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $policy = null;
-
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $hiring = null;
+    /** @var list<string> */
+    #[ORM\Column(type: Types::JSON)]
+    private array $canonical = [];
 
     public function getId(): ?int
     {
@@ -64,12 +80,18 @@ class Securitytxt
         return $this;
     }
 
-    public function getContact(): ?string
+    /**
+     * @return list<string>
+     */
+    public function getContact(): array
     {
         return $this->contact;
     }
 
-    public function setContact(string $contact): self
+    /**
+     * @param list<string> $contact
+     */
+    public function setContact(array $contact): self
     {
         $this->contact = $contact;
 
@@ -88,50 +110,104 @@ class Securitytxt
         return $this;
     }
 
-    public function getEncryption(): ?string
+    /**
+     * @return list<string>
+     */
+    public function getEncryption(): array
     {
         return $this->encryption;
     }
 
-    public function setEncryption(string $encryption): self
+    /**
+     * @param list<string> $encryption
+     */
+    public function setEncryption(array $encryption): self
     {
         $this->encryption = $encryption;
 
         return $this;
     }
 
-    public function getAcknowledgments(): ?string
+    /**
+     * @return list<string>
+     */
+    public function getAcknowledgments(): array
     {
         return $this->acknowledgments;
     }
 
-    public function setAcknowledgments(string $acknowledgments): self
+    /**
+     * @param list<string> $acknowledgments
+     */
+    public function setAcknowledgments(array $acknowledgments): self
     {
         $this->acknowledgments = $acknowledgments;
 
         return $this;
     }
 
-    public function getPolicy(): ?string
+    /**
+     * @return list<string>
+     */
+    public function getPolicy(): array
     {
         return $this->policy;
     }
 
-    public function setPolicy(string $policy): self
+    /**
+     * @param list<string> $policy
+     */
+    public function setPolicy(array $policy): self
     {
         $this->policy = $policy;
 
         return $this;
     }
 
-    public function getHiring(): ?string
+    /**
+     * @return list<string>
+     */
+    public function getHiring(): array
     {
         return $this->hiring;
     }
 
-    public function setHiring(string $hiring): self
+    /**
+     * @param list<string> $hiring
+     */
+    public function setHiring(array $hiring): self
     {
         $this->hiring = $hiring;
+
+        return $this;
+    }
+
+    public function getPreferredLanguages(): ?string
+    {
+        return $this->preferred_languages;
+    }
+
+    public function setPreferredLanguages(?string $preferred_languages): self
+    {
+        $this->preferred_languages = $preferred_languages;
+
+        return $this;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getCanonical(): array
+    {
+        return $this->canonical;
+    }
+
+    /**
+     * @param list<string> $canonical
+     */
+    public function setCanonical(array $canonical): self
+    {
+        $this->canonical = $canonical;
 
         return $this;
     }

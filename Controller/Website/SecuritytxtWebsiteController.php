@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sulu Securitytxt bundle.
  *
@@ -13,32 +14,24 @@ namespace BitExpert\Sulu\SecuritytxtBundle\Controller\Website;
 
 use BitExpert\Sulu\SecuritytxtBundle\Entity\Securitytxt;
 use BitExpert\Sulu\SecuritytxtBundle\Repository\SecuritytxtRepository;
-use DateTime;
 use Sulu\Component\Webspace\Analyzer\Attributes\RequestAttributes;
-use Sulu\Component\Webspace\Portal;
+use Sulu\Component\Webspace\Webspace;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class SecuritytxtWebsiteController extends AbstractController
 {
     public function __construct(
-        private readonly SecuritytxtRepository $repository
+        private readonly SecuritytxtRepository $repository,
     ) {
     }
 
     public function getAction(Request $request): Response
     {
-        /** @var RequestAttributes|null $sulu */
-        $sulu = $request->attributes->get('_sulu', null);
-        if ($sulu === null) {
-            throw $this->createNotFoundException();
-        }
-
-        /** @var Portal|null $webspace */
-        $webspace = $sulu->getAttribute('webspace', null);
-        if ($webspace === null) {
+        $sulu = $request->attributes->get('_sulu');
+        $webspace = $sulu instanceof RequestAttributes ? $sulu->getAttribute('webspace') : null;
+        if (!$webspace instanceof Webspace) {
             throw $this->createNotFoundException();
         }
 
@@ -47,32 +40,28 @@ class SecuritytxtWebsiteController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $content = '';
-        try {
-            /** @var string $expires */
-            $expires = $entity->getExpires();
-            $expires = new DateTime($expires);
+        // RFC 9116 date-time in UTC, e.g. 2030-12-31T00:00:00.000Z
+        $expires = (new \DateTimeImmutable((string) $entity->getExpires(), new \DateTimeZone('UTC')))
+            ->format('Y-m-d\TH:i:s.v\Z');
 
-            $content .= 'Contact: '.str_replace('mailto://', 'mailto:', (string) $entity->getContact())."\n";
-            $content .= 'Expires: '.$expires->format(DateTime::ATOM)."\n";
-            if (is_string($entity->getEncryption()) && ($entity->getEncryption() !== '')) {
-                $content .= 'Encryption: '.$entity->getEncryption()."\n";
+        $fields = [
+            'Contact' => $entity->getContact(),
+            'Expires' => [$expires],
+            'Encryption' => $entity->getEncryption(),
+            'Acknowledgments' => $entity->getAcknowledgments(),
+            'Policy' => $entity->getPolicy(),
+            'Hiring' => $entity->getHiring(),
+            'Preferred-Languages' => \array_filter([$entity->getPreferredLanguages()]),
+            'Canonical' => $entity->getCanonical(),
+        ];
+
+        $content = '';
+        foreach ($fields as $name => $values) {
+            foreach ($values as $value) {
+                $content .= $name . ': ' . $value . "\n";
             }
-            if (is_string($entity->getAcknowledgments()) && ($entity->getAcknowledgments() !== '')) {
-                $content .= 'Acknowledgments: '.$entity->getAcknowledgments()."\n";
-            }
-            if (is_string($entity->getPolicy()) && ($entity->getPolicy() !== '')) {
-                $content .= 'Policy: '.$entity->getPolicy()."\n";
-            }
-            if (is_string($entity->getHiring()) && ($entity->getHiring() !== '')) {
-                $content .= 'Hiring: '.$entity->getHiring()."\n";
-            }
-        } catch (\Exception $e) {
-            throw new HttpException(500);
         }
 
-        $response = new Response();
-        $response->setContent($content);
-        return $response;
+        return new Response($content, Response::HTTP_OK, ['Content-Type' => 'text/plain; charset=utf-8']);
     }
 }

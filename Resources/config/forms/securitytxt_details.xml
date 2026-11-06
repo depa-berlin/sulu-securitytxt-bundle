@@ -5,98 +5,68 @@
     <key>securitytxt_details</key>
 
     <properties>
-        <property name="contact" type="url" mandatory="true">
+        <property name="contact" type="text_area" mandatory="true">
             <meta>
                 <title>securitytxt.contact</title>
-                <info_text lang="en">A link or e-mail address for people to contact you about security issues.</info_text>
+                <info_text lang="en">How security researchers can reach you, one entry per line: mailto:security@example.com, tel:+49301234567 or https://example.com/contact. The first entry is the preferred one.</info_text>
+                <info_text lang="de">Wie Sicherheitsforscher euch erreichen, ein Eintrag pro Zeile: mailto:security@example.com, tel:+49301234567 oder https://example.com/kontakt. Der erste Eintrag ist der bevorzugte.</info_text>
             </meta>
-
-            <params>
-                <param name="defaults" type="collection">
-                    <param name="scheme" value="https://"/>
-                </param>
-
-                <param name="schemes" type="collection">
-                    <param name="https://"/>
-                    <param name="mailto://"/>
-                    <param name="tel://"/>
-                </param>
-            </params>
         </property>
 
         <property name="expires" type="date" mandatory="true">
             <meta>
                 <title>securitytxt.expires</title>
                 <info_text lang="en">The date when the content of the security.txt file should be considered stale (so security researchers should then not trust it). Make sure you update this value periodically and keep your file under review.</info_text>
+                <info_text lang="de">Ab diesem Datum gilt der Inhalt als veraltet und Sicherheitsforscher sollten ihm nicht mehr vertrauen. RFC 9116 empfiehlt weniger als ein Jahr in der Zukunft, also regelmäßig aktualisieren.</info_text>
             </meta>
         </property>
 
-        <property name="encryption" type="url">
+        <property name="encryption" type="text_area">
             <meta>
                 <title>securitytxt.encryption</title>
-                <info_text lang="en">A link to a key which security researchers should use to securely talk to you.</info_text>
+                <info_text lang="en">Where to find a key for encrypted communication, one per line: https://, dns: or openpgp4fpr: URI.</info_text>
+                <info_text lang="de">Wo ein Schlüssel für verschlüsselte Kommunikation liegt, einer pro Zeile: https://-, dns:- oder openpgp4fpr:-URI.</info_text>
             </meta>
-
-            <params>
-                <param name="defaults" type="collection">
-                    <param name="scheme" value="https://"/>
-                </param>
-
-                <param name="schemes" type="collection">
-                    <param name="https://"/>
-                </param>
-            </params>
         </property>
 
-        <property name="acknowledgments" type="url">
+        <property name="acknowledgments" type="text_area">
             <meta>
                 <title>securitytxt.acknowledgments</title>
-                <info_text lang="en">A link to a web page where you say thank you to security researchers who have helped you.</info_text>
+                <info_text lang="en">Pages thanking security researchers who have helped you, one https:// URL per line.</info_text>
+                <info_text lang="de">Seiten, auf denen ihr Sicherheitsforschern dankt, eine https://-URL pro Zeile.</info_text>
             </meta>
-
-            <params>
-                <param name="defaults" type="collection">
-                    <param name="scheme" value="https://"/>
-                </param>
-
-                <param name="schemes" type="collection">
-                    <param name="https://"/>
-                </param>
-            </params>
         </property>
 
-        <property name="policy" type="url">
+        <property name="policy" type="text_area">
             <meta>
                 <title>securitytxt.policy</title>
-                <info_text lang="en">A link to a policy detailing what security researchers should do when searching for or reporting security issues.</info_text>
+                <info_text lang="en">Policies for security researchers searching for or reporting security issues, one https:// URL per line.</info_text>
+                <info_text lang="de">Richtlinien für das Suchen und Melden von Sicherheitslücken, eine https://-URL pro Zeile.</info_text>
             </meta>
-
-            <params>
-                <param name="defaults" type="collection">
-                    <param name="scheme" value="https://"/>
-                </param>
-
-                <param name="schemes" type="collection">
-                    <param name="https://"/>
-                </param>
-            </params>
         </property>
 
-        <property name="hiring" type="url">
+        <property name="hiring" type="text_area">
             <meta>
                 <title>securitytxt.hiring</title>
-                <info_text lang="en">A link to any security-related job openings in your organisation.</info_text>
+                <info_text lang="en">Security-related job openings in your organisation, one https:// URL per line.</info_text>
+                <info_text lang="de">Stellenangebote im Bereich Sicherheit, eine https://-URL pro Zeile.</info_text>
             </meta>
+        </property>
 
-            <params>
-                <param name="defaults" type="collection">
-                    <param name="scheme" value="https://"/>
-                </param>
+        <property name="preferred_languages" type="text_line">
+            <meta>
+                <title>securitytxt.preferred_languages</title>
+                <info_text lang="en">Languages you prefer for security reports, comma-separated, e.g. "de, en".</info_text>
+                <info_text lang="de">Bevorzugte Sprachen für Meldungen, durch Komma getrennt, z. B. "de, en".</info_text>
+            </meta>
+        </property>
 
-                <param name="schemes" type="collection">
-                    <param name="https://"/>
-                </param>
-            </params>
+        <property name="canonical" type="text_area">
+            <meta>
+                <title>securitytxt.canonical</title>
+                <info_text lang="en">Where this file is officially published, one https:// URL per line, e.g. https://www.example.com/.well-known/security.txt.</info_text>
+                <info_text lang="de">Wo diese Datei offiziell liegt, eine https://-URL pro Zeile, z. B. https://www.example.com/.well-known/security.txt.</info_text>
+            </meta>
         </property>
     </properties>
 </form>

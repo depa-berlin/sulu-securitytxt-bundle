@@ -6,5 +6,7 @@
   "securitytxt.encryption": "Encryption",
   "securitytxt.acknowledgments": "Acknowledgments",
   "securitytxt.policy": "Policy",
-  "securitytxt.hiring": "Hiring"
+  "securitytxt.hiring": "Hiring",
+  "securitytxt.preferred_languages": "Preferred-Languages",
+  "securitytxt.canonical": "Canonical"
 }

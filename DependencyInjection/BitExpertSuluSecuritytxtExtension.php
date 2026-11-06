@@ -47,8 +47,8 @@ class BitExpertSuluSecuritytxtExtension extends Extension implements PrependExte
             );
         }
 
-        $container->loadFromExtension('framework', [
-            'default_locale' => 'en',
+        // prepend, so the app's own framework config always wins
+        $container->prependExtensionConfig('framework', [
             'translator' => ['paths' => [__DIR__.'/../Resources/config/translations/']],
         ]);
     }

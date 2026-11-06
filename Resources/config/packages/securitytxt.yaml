@@ -1,6 +1,0 @@
-sulu_admin:
-    resources:
-        securitytxt:
-            routes:
-                list: bitexpert.get_securitytxt_list
-                detail: bitexpert.get_securitytxt

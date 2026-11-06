@@ -1,0 +1,12 @@
+{
+  "securitytxt.title": "Security.txt",
+  "securitytxt.webspace_key": "Webspace",
+  "securitytxt.contact": "Kontakt (Contact)",
+  "securitytxt.expires": "Ablaufdatum (Expires)",
+  "securitytxt.encryption": "Verschlüsselung (Encryption)",
+  "securitytxt.acknowledgments": "Danksagungen (Acknowledgments)",
+  "securitytxt.policy": "Richtlinie (Policy)",
+  "securitytxt.hiring": "Stellenangebote (Hiring)",
+  "securitytxt.preferred_languages": "Bevorzugte Sprachen (Preferred-Languages)",
+  "securitytxt.canonical": "Kanonische URL (Canonical)"
+}

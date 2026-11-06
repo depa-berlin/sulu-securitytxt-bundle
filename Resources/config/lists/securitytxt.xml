@@ -2,39 +2,21 @@
 <list xmlns="http://schemas.sulu.io/list-builder/list">
     <key>securitytxt</key>
 
+    <!-- ponytail: multi-value fields are JSON columns and not readable in a table, so the list shows only Expires -->
     <properties>
         <property name="id" visibility="no" translation="sulu_admin.id">
             <field-name>id</field-name>
             <entity-name>BitExpert\Sulu\SecuritytxtBundle\Entity\Securitytxt</entity-name>
         </property>
 
-        <property name="contact" visibility="always" searchability="yes" translation="securitytxt.contact">
-            <field-name>contact</field-name>
+        <!-- filter only: the admin list is restricted to the current webspace -->
+        <property name="webspace_key" visibility="never" translation="securitytxt.webspace_key">
+            <field-name>webspace_key</field-name>
             <entity-name>BitExpert\Sulu\SecuritytxtBundle\Entity\Securitytxt</entity-name>
         </property>
 
-        <property name="expires" visibility="always" searchability="yes" translation="securitytxt.expires">
+        <property name="expires" visibility="always" translation="securitytxt.expires">
             <field-name>expires</field-name>
-            <entity-name>BitExpert\Sulu\SecuritytxtBundle\Entity\Securitytxt</entity-name>
-        </property>
-
-        <property name="encryption" visibility="always" searchability="yes" translation="securitytxt.encryption">
-            <field-name>encryption</field-name>
-            <entity-name>BitExpert\Sulu\SecuritytxtBundle\Entity\Securitytxt</entity-name>
-        </property>
-
-        <property name="acknowledgments" visibility="always" searchability="yes" translation="securitytxt.acknowledgments">
-            <field-name>acknowledgments</field-name>
-            <entity-name>BitExpert\Sulu\SecuritytxtBundle\Entity\Securitytxt</entity-name>
-        </property>
-
-        <property name="policy" visibility="always" searchability="yes" translation="securitytxt.policy">
-            <field-name>policy</field-name>
-            <entity-name>BitExpert\Sulu\SecuritytxtBundle\Entity\Securitytxt</entity-name>
-        </property>
-
-        <property name="hiring" visibility="always" searchability="yes" translation="securitytxt.hiring">
-            <field-name>hiring</field-name>
             <entity-name>BitExpert\Sulu\SecuritytxtBundle\Entity\Securitytxt</entity-name>
         </property>
     </properties>

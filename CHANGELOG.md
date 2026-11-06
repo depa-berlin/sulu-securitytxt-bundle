@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## Unreleased
+
+### Added
+
+- Multiple values (one per line) for Contact, Encryption, Acknowledgments, Policy and Hiring
+- New fields Preferred-Languages and Canonical
+- German admin translations
+- Server-side validation of all fields according to RFC 9116
+
+### Changed
+
+- **Breaking:** the multi-value fields are stored as JSON lists. Existing values cannot be converted:
+  drop the `securitytxt` table, run `./bin/adminconsole doctrine:schema:update -f` and re-enter the data
+  in the admin.
+- Permissions moved from the separate "BitExpert" system to Sulu → Settings, with an additional "edit" permission
+- Expires is rendered in UTC, e.g. `2030-12-31T00:00:00.000Z`
+
+### Fixed
+
+- The admin API did not check any permissions
+- The admin list showed the entries of all webspaces
+- Adding a second entry for a webspace failed with an HTTP 500
+- The bundle overrode the application's `framework.default_locale`
+- A `vendor/` directory inside the bundle was scanned as services
+
 ## 0.8.0
 
 ### Added

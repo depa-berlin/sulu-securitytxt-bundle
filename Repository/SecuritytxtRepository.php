@@ -26,15 +26,6 @@ class SecuritytxtRepository extends ServiceEntityRepository
         parent::__construct($registry, Securitytxt::class);
     }
 
-    public function create(): Securitytxt
-    {
-        $entity = new Securitytxt();
-
-        $this->getEntityManager()->persist($entity);
-
-        return $entity;
-    }
-
     /**
      * @throws ORMException
      */

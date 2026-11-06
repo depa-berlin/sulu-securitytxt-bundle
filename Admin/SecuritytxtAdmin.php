@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Sulu Securitytxt bundle.
  *
@@ -19,23 +20,24 @@ use Sulu\Bundle\AdminBundle\Admin\View\ViewCollection;
 use Sulu\Component\Security\Authorization\PermissionTypes;
 use Sulu\Component\Security\Authorization\SecurityCheckerInterface;
 use Sulu\Component\Security\Authorization\SecurityCondition;
+use Sulu\Page\Infrastructure\Sulu\Admin\PageAdmin;
 
 class SecuritytxtAdmin extends Admin
 {
-    final public const SYSTEM = 'BitExpert';
     final public const SECURITY_CONTEXT = 'bitexpert.securitytxt';
     final public const SECURITYTXT_LIST_KEY = 'securitytxt';
     final public const SECURITYTXT_LIST_VIEW = 'bitexpert.securitytxt_list';
 
     public function __construct(
         private readonly ViewBuilderFactoryInterface $viewBuilderFactory,
-        private readonly SecurityCheckerInterface    $securityChecker
+        private readonly SecurityCheckerInterface $securityChecker,
     ) {
     }
 
     public function configureViews(ViewCollection $viewCollection): void
     {
-        $securityCondition = new SecurityCondition(static::SECURITY_CONTEXT, null, null, null, self::SYSTEM);
+        // no explicit system: checks against the current one (Sulu), where admin roles live
+        $securityCondition = new SecurityCondition(static::SECURITY_CONTEXT);
 
         $toolbarActions = [];
 
@@ -63,7 +65,7 @@ class SecuritytxtAdmin extends Admin
                     ->setTabOrder(2048)
                     ->addToolbarActions($toolbarActions)
                     ->setParent($this->getWebspaceTabsView())
-                    ->addRerenderAttribute('webspace')
+                    ->addRerenderAttribute('webspace'),
             );
         }
     }
@@ -77,8 +79,8 @@ class SecuritytxtAdmin extends Admin
      */
     private function getWebspaceTabsView(): string
     {
-        if (class_exists(\Sulu\Page\Infrastructure\Sulu\Admin\PageAdmin::class)) {
-            return \Sulu\Page\Infrastructure\Sulu\Admin\PageAdmin::WEBSPACE_TABS_VIEW;
+        if (\class_exists(PageAdmin::class)) {
+            return PageAdmin::WEBSPACE_TABS_VIEW;
         }
 
         // Sulu 2.6 fallback. The class does not exist on Sulu 3, but this branch is only
@@ -87,14 +89,15 @@ class SecuritytxtAdmin extends Admin
         return \Sulu\Bundle\PageBundle\Admin\PageAdmin::WEBSPACE_TABS_VIEW;
     }
 
-    public function getSecurityContexts()
+    public function getSecurityContexts(): array
     {
         return [
-            self::SYSTEM => [
-                'Securitytxt' => [
+            'Sulu' => [
+                'Settings' => [
                     static::SECURITY_CONTEXT => [
                         PermissionTypes::VIEW,
                         PermissionTypes::ADD,
+                        PermissionTypes::EDIT, // checked by SecuritytxtAdminController on PUT
                         PermissionTypes::DELETE,
                     ],
                 ],
