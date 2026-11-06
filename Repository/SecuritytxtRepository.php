@@ -54,6 +54,6 @@ class SecuritytxtRepository extends ServiceEntityRepository
 
     public function findByWebspaceKey(string $webspaceKey): ?Securitytxt
     {
-        return $this->findOneBy(['webspace_key' => $webspaceKey]);
+        return $this->findOneBy(['webspaceKey' => $webspaceKey]);
     }
 }

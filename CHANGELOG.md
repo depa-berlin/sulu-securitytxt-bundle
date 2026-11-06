@@ -13,9 +13,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- **Breaking:** the multi-value fields are stored as JSON lists. Existing values cannot be converted:
-  drop the `securitytxt` table, run `./bin/adminconsole doctrine:schema:update -f` and re-enter the data
-  in the admin.
+- **Breaking:** the table is now called `st_securitytxt` and stores the multi-value fields as JSON lists.
+  Existing values cannot be converted: drop the old `securitytxt` table, run
+  `./bin/adminconsole doctrine:schema:update -f` and re-enter the data in the admin.
 - Permissions moved from the separate "BitExpert" system to Sulu → Settings, with an additional "edit" permission
 - Expires is rendered in UTC, e.g. `2030-12-31T00:00:00.000Z`
 

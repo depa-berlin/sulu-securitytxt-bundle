@@ -20,6 +20,8 @@ use Doctrine\ORM\Mapping as ORM;
  * for Contact the order is the preference.
  */
 #[ORM\Entity(repositoryClass: SecuritytxtRepository::class)]
+// prefixed like Sulu's own tables (se_, we_, ...)
+#[ORM\Table(name: 'st_securitytxt')]
 class Securitytxt
 {
     final public const RESOURCE_KEY = 'securitytxt';
@@ -31,7 +33,7 @@ class Securitytxt
     private ?int $id = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: false)]
-    private ?string $webspace_key = null;
+    private ?string $webspaceKey = null;
 
     /** @var list<string> */
     #[ORM\Column(type: Types::JSON)]
@@ -57,7 +59,7 @@ class Securitytxt
     private array $hiring = [];
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
-    private ?string $preferred_languages = null;
+    private ?string $preferredLanguages = null;
 
     /** @var list<string> */
     #[ORM\Column(type: Types::JSON)]
@@ -70,12 +72,12 @@ class Securitytxt
 
     public function getWebspaceKey(): ?string
     {
-        return $this->webspace_key;
+        return $this->webspaceKey;
     }
 
-    public function setWebspaceKey(?string $webspace_key): self
+    public function setWebspaceKey(?string $webspaceKey): self
     {
-        $this->webspace_key = $webspace_key;
+        $this->webspaceKey = $webspaceKey;
 
         return $this;
     }
@@ -184,12 +186,12 @@ class Securitytxt
 
     public function getPreferredLanguages(): ?string
     {
-        return $this->preferred_languages;
+        return $this->preferredLanguages;
     }
 
-    public function setPreferredLanguages(?string $preferred_languages): self
+    public function setPreferredLanguages(?string $preferredLanguages): self
     {
-        $this->preferred_languages = $preferred_languages;
+        $this->preferredLanguages = $preferredLanguages;
 
         return $this;
     }
