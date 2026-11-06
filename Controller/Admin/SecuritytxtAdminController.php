@@ -22,6 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -90,18 +91,17 @@ class SecuritytxtAdminController extends AbstractController implements SecuredCo
     }
 
     #[Route(path: '/securitytxt', name: 'bitexpert.post_securitytxt', methods: ['POST'])]
-    public function postAction(Request $request): Response
+    public function postAction(Request $request, #[MapQueryParameter] string $webspace): Response
     {
-        $webspaceKey = $request->query->getString('webspace');
-        if (null === $this->webspaceManager->findWebspaceByKey($webspaceKey)) {
-            return $this->badRequest(\sprintf('Unknown webspace "%s".', $webspaceKey));
+        if (null === $this->webspaceManager->findWebspaceByKey($webspace)) {
+            return $this->badRequest(\sprintf('Unknown webspace "%s".', $webspace));
         }
 
-        if (null !== $this->repository->findByWebspaceKey($webspaceKey)) {
+        if (null !== $this->repository->findByWebspaceKey($webspace)) {
             return $this->badRequest('This webspace already has a security.txt, please edit the existing entry.');
         }
 
-        return $this->save((new Securitytxt())->setWebspaceKey($webspaceKey), $request, 201);
+        return $this->save((new Securitytxt())->setWebspaceKey($webspace), $request, 201);
     }
 
     #[Route(path: '/securitytxt/{id}', name: 'bitexpert.delete_securitytxt', methods: ['DELETE'])]
@@ -113,11 +113,11 @@ class SecuritytxtAdminController extends AbstractController implements SecuredCo
     }
 
     #[Route(path: '/securitytxt', name: 'bitexpert.get_securitytxt_list', methods: ['GET'])]
-    public function getListAction(Request $request): Response
+    public function getListAction(#[MapQueryParameter] string $webspace): Response
     {
         $listRepresentation = $this->doctrineListRepresentationFactory->createDoctrineListRepresentation(
             Securitytxt::RESOURCE_KEY,
-            ['webspace_key' => $request->query->getString('webspace')],
+            ['webspace_key' => $webspace],
         );
 
         return $this->json($listRepresentation->toArray());
